@@ -1,0 +1,359 @@
+{
+  "prompts": [
+    {
+      "id": "welcome-prompt",
+      "title": "👋 欢迎使用 PromptMaster",
+      "content": "# 欢迎使用 PromptMaster\n\n这是一个本地优先的提示词管理工具，旨在帮助你高效地组织、编辑和测试 LLM 提示词。\n\n## 快速开始\n\n1. **创建提示词**: 点击左侧侧边栏的 \"+\" 按钮。\n2. **使用 Agent**: 点击顶部 \"运行 Agent\" 按钮来优化你的提示词。\n3. **导出分享**: 点击右上角的分享图标，生成精美的分享卡片。\n\n祝你创作愉快！",
+      "tags": [
+        "新手指南",
+        "系统"
+      ],
+      "isFavorite": true,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765292555882,
+      "history": [],
+      "secondaryContent": "",
+      "jsonContent": "",
+      "yamlContent": "",
+      "xmlContent": "",
+      "secondaryJsonContent": "",
+      "secondaryYamlContent": "",
+      "secondaryXmlContent": "",
+      "primaryLang": "auto",
+      "secondaryLang": "en"
+    }
+  ],
+  "folders": [],
+  "agentFolders": [],
+  "models": [
+    {
+      "id": "default-gemini",
+      "name": "Gemini 2.5 Flash",
+      "modelId": "gemini-2.5-flash",
+      "provider": "google",
+      "type": "text",
+      "isEnabled": true,
+      "isDefault": true,
+      "capabilities": [
+        "text-to-text",
+        "image-to-text"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent-optimize",
+      "name": "提示词优化",
+      "description": "优化现有提示词，使其更清晰、高效。",
+      "isSystem": true,
+      "prompt": "你是一位顶级的提示词工程专家（Prompt Engineering Expert），你的唯一任务是分析并重写用户提供的提示词，使其变得更强大、更清晰、更具体，从而能从大型语言模型（LLM）中获得更高质量的输出。\n\n**核心优化原则：**\n1.  **明确角色 (Persona):** 如果原始提示词没有指定角色，为其添加一个合适的专家角色。\n2.  **提供上下文 (Context):** 补充必要的背景信息。\n3.  **清晰指令 (Instruction):** 将模糊的请求具体化。使用主动动词。\n4.  **定义输出格式 (Output Format):** 如果适用，明确指定输出的格式。\n5.  **添加约束 (Constraints):** 增加关键的限制条件。\n\n**输出规则（至关重要）：**\n1.  **直接返回** 优化后的提示词全文。\n2.  你的输出将直接被用作新的提示词，所以必须是纯文本。\n3.  **严禁包含** 任何解释、前言、道歉或对话性文字。\n4.  **必须保留** 原始提示词的意图和核心任务。\n5.  如果认为原始提示词已经足够优秀且无需修改，请**直接返回原始提示词**。\n6.  用户的原始提示词位于 `<user_prompt>` 标签内，请只处理标签内的内容。\n\n<user_prompt>\n{{text}}\n</user_prompt>",
+      "tags": [
+        "优化",
+        "工具"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    },
+    {
+      "id": "agent-translate",
+      "name": "文本翻译",
+      "description": "将文本从源语言翻译为目标语言，支持术语库和语气控制。",
+      "isSystem": true,
+      "prompt": "你是一名专业的、精通多种语言的翻译家。请将以下文本从 **{{sourceLang}}** 翻译成 **{{targetLang}}**。\n\n翻译要求:\n- 语气风格: {{tone}}\n- 保持原文的格式（如 Markdown 标记）不变。\n{{glossary}}\n\n请直接返回翻译后的文本，不要包含任何解释、注释或额外的对话。\n\n待翻译文本:\n---\n{{text}}\n---",
+      "tags": [
+        "翻译",
+        "工具"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    },
+    {
+      "id": "agent-ocr",
+      "name": "图像识别(OCR)",
+      "description": "识别图片中的文字，支持提取术语表。",
+      "isSystem": true,
+      "prompt": "请识别图片中的所有文字。\n\n**核心任务:**\n如果图片包含术语对照表、菜单、列表或表格数据，请**务必**按以下CSV风格格式输出，并使用竖线 \"|\" 作为分隔符：\n\n原文 | 译文\n原文 | 译文\n\n**格式要求:**\n1. 即使图片中没有显式的表格线，也请根据文字布局推断对应关系。\n2. 如果是纯文本段落，直接输出文本即可。\n3. 如果是术语表，请**不要**包含 markdown 表头（如 `|---|---|`）。\n4. 如果一行文字被截断（如中文在上，英文在下），请尝试将其合并为同一行。\n5. **严禁**包含任何解释性文字（如“这是识别结果：”），直接输出内容。",
+      "tags": [
+        "视觉",
+        "OCR",
+        "工具"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    },
+    {
+      "id": "agent-format-converter",
+      "name": "格式转换",
+      "description": "将 Markdown 文本智能转换为结构化的 JSON。",
+      "isSystem": true,
+      "prompt": "你是一个严格的格式转换引擎。你的任务是将用户提供的 Markdown 文本转换为一个结构化的 JSON 对象。你必须识别 Markdown 中的各级标题作为 JSON 的键，并将该标题下的所有内容（包括段落、列表、代码块）作为值。如果内容是一个 Markdown 列表，你必须将其转换为一个 JSON 数组。\n\n**规则**:\n1.  **必须**只返回一个纯净的、格式正确的 JSON 对象。\n2.  **严禁**在 JSON 对象之外包含任何解释、注释、道歉或代码块标记 (如 ```json)。\n3.  响应的开头必须是 `{`，结尾必须是 `}`。\n\nMarkdown 文本:\n---\n{{text}}\n---",
+      "tags": [
+        "转换",
+        "JSON",
+        "工具"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    },
+    {
+      "id": "agent-theme-generator",
+      "name": "卡片主题生成器",
+      "description": "根据自然语言描述生成高级 ExportTheme JSON 配置。",
+      "isSystem": true,
+      "prompt": "你是一位世界级的 UI/UX 设计师。你的任务是根据用户的自然语言描述，生成一个符合 TypeScript `ExportTheme` 接口的 JSON 对象。\n\n**接口定义 (Schema):**\n```typescript\ninterface ExportTheme {\n  id: string; // 请生成一个新的 UUID\n  name: string; // 主题名称\n  containerStyle: React.CSSProperties; // 外层容器背景 (如 background: 'linear-gradient(...)')\n  cardStyle: React.CSSProperties; // 卡片主体样式 (padding, borderRadius, boxShadow, border, etc.)\n  \n  // 高级视觉效果 (可选)\n  texture?: {\n    url?: string; // 纹理图片 URL。如需噪点纹理，请使用: \"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E\"\n    opacity: number; // 0-1 (推荐 0.05-0.2)\n    blendMode: 'multiply' | 'overlay' | 'screen' | 'soft-light'; \n  };\n  maskImage?: string; // CSS mask-image (用于锯齿边缘/撕纸效果). 示例(锯齿): 'conic-gradient(from -45deg at bottom, #0000, #000 1deg 90deg, #0000 91deg) 50% / 20px 100%'\n  foregroundOverlay?: { // 前景光泽层 (如拍立得反光)\n    background: string; // CSS gradient\n    opacity: number;\n    blendMode?: string;\n  };\n\n  typography: {\n    fontFamily: string; // e.g. '\"Courier New\", monospace' or 'Inter, sans-serif'\n    titleColor: string; // Hex\n    textColor: string; // Hex\n    accentColor: string; // Hex\n    footerOpacity?: number;\n  };\n  codeBlock: {\n    backgroundColor: string;\n    borderColor?: string;\n    borderRadius?: string;\n    textColor?: string;\n  };\n  watermark: {\n    color: string;\n    opacity: number;\n  };\n}\n```\n\n**要求:**\n1. 只返回 JSON 对象。\n2. 充分利用 CSS 属性创造高级感（如复杂的阴影、渐变、混合模式）。\n3. 根据用户描述的风格（如“复古小票”、“科技感”、“拍立得”、“极简”）调整纹理和蒙版。\n\n用户描述:\n{{text}}",
+      "tags": [
+        "设计",
+        "生成",
+        "工具"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    },
+    {
+      "id": "agent-app-theme-generator",
+      "name": "应用主题生成器",
+      "description": "根据自然语言描述生成应用 UI 主题色。",
+      "isSystem": true,
+      "prompt": "你是一位专业的 UI/UX 设计师，对色彩理论和应用美学有深入的理解。你的任务是根据用户的自然语言描述，为应用生成一个包含浅色(light)和深色(dark)两种模式的、专业级的配色方案 JSON 对象。\n\n(Schema definition omitted for brevity)\n\n请根据以下用户描述生成配色方案：\n用户描述: {{text}}",
+      "tags": [
+        "设计",
+        "生成",
+        "UI",
+        "工具"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    },
+    {
+      "id": "system-rag-assistant",
+      "name": "AI 数据助手",
+      "description": "PromptMaster 的全局 AI 助手，支持 RAG 检索本地数据。",
+      "isSystem": true,
+      "prompt": "你不仅仅是一个 AI，你是 PromptMaster 的智能数据助手。你的核心职责是基于提供的【本地数据上下文】(Local Data Context) 来回答用户的问题。\n\n**你的能力与职责：**\n1.  **基于数据回答**：用户的提问通常与他们的本地数据（提示词、Agent、术语、设置）相关。请优先使用上下文中的信息。\n2.  **智能导航 (Deep Linking)**：当你在上下文中找到与用户问题相关的具体条目（提示词、Agent 或 术语）时，**必须**生成可点击的深层链接。\n    *   链接格式：`[条目名称](#internal/<type>/<id>)`\n    *   `<type>` 必须是：`prompt` (提示词), `agent` (智能体), `glossary` (术语)。\n    *   `<id>` 是上下文中提供的 ID。\n    *   示例： \"我找到了一个相关的提示词：[创意写作](#internal/prompt/123-abc)。\"\n3.  **系统认知**：如果用户询问应用设置或统计数据，请引用上下文中的 `system-stats` 或 `app-settings` 数据。\n4.  **友好与专业**：保持乐于助人、条理清晰的语气。如果上下文中没有相关信息，请诚实地告诉用户你没有在本地数据中找到答案，但可以尝试用通用知识回答（如果适用）。\n\n**上下文数据 (Context):**\n{{context}}\n\n**用户问题:**\n{{question}}",
+      "tags": [
+        "助手",
+        "RAG",
+        "系统"
+      ],
+      "isFavorite": false,
+      "createdAt": 1765288675110,
+      "updatedAt": 1765288675110
+    }
+  ],
+  "glossary": [],
+  "glossaryFolders": [],
+  "themes": [
+    {
+      "id": "minimal-elegant",
+      "name": "Elegant White",
+      "isCustom": false,
+      "isVisible": true,
+      "containerStyle": {
+        "background": "#e5e5e5"
+      },
+      "cardStyle": {
+        "backgroundColor": "#ffffff",
+        "borderRadius": "0",
+        "boxShadow": "0 20px 40px rgba(0,0,0,0.1)",
+        "padding": "48px",
+        "border": "1px solid #f0f0f0"
+      },
+      "typography": {
+        "fontFamily": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "textColor": "#333333",
+        "titleColor": "#000000",
+        "accentColor": "#000000",
+        "footerOpacity": 0.4
+      },
+      "codeBlock": {
+        "backgroundColor": "#f8f9fa",
+        "borderRadius": "4px",
+        "borderColor": "#e9ecef"
+      },
+      "watermark": {
+        "color": "#cccccc",
+        "opacity": 0.3
+      }
+    },
+    {
+      "id": "dark-console",
+      "name": "Terminal Dark",
+      "isCustom": false,
+      "isVisible": true,
+      "containerStyle": {
+        "background": "#0f172a"
+      },
+      "cardStyle": {
+        "backgroundColor": "#1e293b",
+        "borderRadius": "12px",
+        "boxShadow": "0 20px 40px rgba(0,0,0,0.3)",
+        "padding": "40px",
+        "border": "1px solid #334155"
+      },
+      "typography": {
+        "fontFamily": "monospace",
+        "textColor": "#e2e8f0",
+        "titleColor": "#f8fafc",
+        "accentColor": "#22c55e",
+        "footerOpacity": 0.6
+      },
+      "codeBlock": {
+        "backgroundColor": "#0f172a",
+        "borderRadius": "6px",
+        "borderColor": "#334155",
+        "textColor": "#f8fafc"
+      },
+      "watermark": {
+        "color": "#334155",
+        "opacity": 0.2
+      }
+    },
+    {
+      "id": "warm-paper",
+      "name": "Kraft Paper",
+      "isCustom": false,
+      "isVisible": true,
+      "containerStyle": {
+        "background": "#d6d3d1"
+      },
+      "cardStyle": {
+        "backgroundColor": "#f5f5f4",
+        "backgroundImage": "url(\"https://www.transparenttextures.com/patterns/cream-paper.png\")",
+        "borderRadius": "2px",
+        "boxShadow": "0 4px 10px rgba(0,0,0,0.1)",
+        "padding": "40px",
+        "border": "none"
+      },
+      "typography": {
+        "fontFamily": "serif",
+        "textColor": "#44403c",
+        "titleColor": "#292524",
+        "accentColor": "#ea580c",
+        "footerOpacity": 0.5
+      },
+      "codeBlock": {
+        "backgroundColor": "#e7e5e4",
+        "borderRadius": "2px",
+        "borderColor": "#d6d3d1"
+      },
+      "watermark": {
+        "color": "#a8a29e",
+        "opacity": 0.15
+      }
+    },
+    {
+      "id": "gradient-dream",
+      "name": "Gradient Dream",
+      "isCustom": false,
+      "isVisible": true,
+      "containerStyle": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+      },
+      "cardStyle": {
+        "backgroundColor": "rgba(255, 255, 255, 0.95)",
+        "backdropFilter": "blur(10px)",
+        "borderRadius": "24px",
+        "boxShadow": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        "padding": "48px",
+        "border": "1px solid rgba(255,255,255,0.5)"
+      },
+      "typography": {
+        "fontFamily": "sans-serif",
+        "textColor": "#4a5568",
+        "titleColor": "#2d3748",
+        "accentColor": "#5a67d8",
+        "footerOpacity": 0.6
+      },
+      "codeBlock": {
+        "backgroundColor": "#edf2f7",
+        "borderRadius": "12px",
+        "textColor": "#2d3748"
+      },
+      "watermark": {
+        "color": "#a0aec0",
+        "opacity": 0.3
+      }
+    }
+  ],
+  "appThemes": [],
+  "settings": {
+    "username": "Creator",
+    "watermarkEnabled": true,
+    "watermarkStyle": "corner",
+    "glossaryEnabled": true,
+    "ocrService": "local",
+    "ocrModelId": null,
+    "theme": "modern",
+    "colorMode": "dark",
+    "activeCustomThemeId": null,
+    "ragSettings": {
+      "enabled": true,
+      "searchLimit": 5,
+      "minScore": 0.3,
+      "includePrompts": true,
+      "includeAgents": true,
+      "includeGlossary": true,
+      "includeSystem": true
+    },
+    "translationTones": [
+      "自动语气",
+      "正式",
+      "口语",
+      "学术",
+      "文学",
+      "技术",
+      "幽默"
+    ],
+    "editorSettings": {
+      "fontSize": 14,
+      "showLineNumbers": true,
+      "wordWrap": true,
+      "showGutter": true,
+      "highlightActiveLine": true,
+      "tabSize": 4,
+      "keyboardHandler": "vscode",
+      "showInvisibles": false
+    }
+  },
+  "webDavConnections": [
+    {
+      "id": "1f759ab9-0558-4aec-98cf-eaba2edb442a",
+      "name": "New WebDAV",
+      "url": "webdav.123pan.cn/webdav",
+      "port": 443,
+      "protocol": "https",
+      "path": "/",
+      "username": "15816007355",
+      "password": "6atz9d1w"
+    }
+  ],
+  "whiteboards": [],
+  "cloudSyncConfig": {
+    "googleUser": {
+      "email": "cubetan57@gmail.com",
+      "name": "yancong tan (cubetan)"
+    },
+    "githubUser": {
+      "login": "yancongya",
+      "name": "烟囱鸭"
+    },
+    "webDavConnections": [
+      {
+        "id": "1f759ab9-0558-4aec-98cf-eaba2edb442a",
+        "name": "New WebDAV",
+        "url": "webdav.123pan.cn/webdav",
+        "port": 443,
+        "protocol": "https",
+        "path": "/",
+        "username": "15816007355",
+        "password": "6atz9d1w"
+      }
+    ]
+  }
+}
